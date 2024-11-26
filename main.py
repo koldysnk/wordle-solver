@@ -1,10 +1,14 @@
+import os.path
 import logging
+import requests
 
 logging.basicConfig(
     level=logging.DEBUG,
     format='%(asctime)s.%(msecs)03d - %(lineno)s - %(levelname)s - %(message)s',
     datefmt='%Y-%m-%d %H:%M:%S'
 )
+
+ALPHABET = ['a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z']
 
 ANSWER = ''
 POSSIBLE = []
@@ -26,12 +30,29 @@ def getAnswer():
 
     if not getAnswerFromWeb():
         getAnswerFromUser()
-        
 
+def loadPossibleWords():
+    pass
+
+def loadPossibleAnswers():
+    if not os.path.exists('possibleWords.txt'):
+        logging.debug("List off possible words is missing. Generating new list.")
+
+        resp = requests.get("https://wordunscrambler.me/wordle-words-starting-with/n")
+        print(resp.text)
+
+def loadPastAnswers():
+    pass
 
 def main():
     logging.info('STARTING PROGRAM')
-    
+
+    loadPossibleWords()
+    loadPossibleAnswers()
+    loadPastAnswers()
+
+
+
     pass
 
 main()
