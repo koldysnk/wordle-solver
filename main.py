@@ -83,9 +83,8 @@ def filterPastAnswers():
 
     POSSIBLE_ANSWERS = list(set(VALID_ANSWERS).difference(set(PAST_ANSWERS)))
 
-def printPossible():
-    POSSIBLE_ANSWERS.sort(key=lambda word: sum([letter in VOWELS for letter in word]))
-    for word in POSSIBLE_ANSWERS[-10:]:
+def printPossible(limit=10):
+    for word in POSSIBLE_ANSWERS[-limit:]:
         print(word)
 
 def verifyGood(word,good_letters):
@@ -158,6 +157,20 @@ def updateInputs(guess, results, bad_letters,good_letters,bad_positions,good_pos
 
     return bad_letters,good_letters,bad_positions,good_positions
 
+def rankByVowelCount():
+    global POSSIBLE_ANSWERS
+    POSSIBLE_ANSWERS.sort(key=lambda word: sum([letter in VOWELS for letter in word]))
+
+def rankByLetterFrequencyWithRepeats():
+    global POSSIBLE_ANSWERS
+
+    POSSIBLE_ANSWERS.sort(key=lambda word: sum([sum([answer.count(letter) for answer in POSSIBLE_ANSWERS]) for letter in word]))
+
+def rankByLetterFrequencyWithoutRepeats():
+    global POSSIBLE_ANSWERS
+
+    POSSIBLE_ANSWERS.sort(key=lambda word: sum([sum([answer.count(letter) for answer in POSSIBLE_ANSWERS]) for letter in set(word)]))
+
 def main():
     global POSSIBLE_ANSWERS
 
@@ -197,7 +210,9 @@ def main():
                                                     verifyBadPositions(word,bad_positions) , POSSIBLE_ANSWERS))
         print(len(POSSIBLE_ANSWERS))
 
-        printPossible()
+        rankByVowelCount()
+        rankByLetterFrequencyWithoutRepeats()
+        printPossible(10)
         print()
 
         #guess = computerGuess(POSSIBLE_ANSWERS)
