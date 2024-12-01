@@ -29,7 +29,7 @@ def getAnswerFromUser():
     global ANSWER 
 
     ANSWER = input("Please enter todays answer (It is only used for validation): ").strip()
-    while ANSWER not in POSSIBLE:
+    while ANSWER not in VALID_WORDS:
         ANSWER = input("INVALID - Answer must only include letters and must be a valid wordle answer: ").strip()
 
 #This function gets the answer. The answer is used to validate the programs guesses.
