@@ -81,9 +81,9 @@ def loadPastAnswers():
 def filterPastAnswers():
     global POSSIBLE_ANSWERS
 
-    POSSIBLE_ANSWERS = list(set(VALID_ANSWERS).difference(set(PAST_ANSWERS)))
+    POSSIBLE_ANSWERS = list(set(VALID_ANSWERS).difference(set([answer.lower() for answer in PAST_ANSWERS])))
 
-def printPossible(limit=10):
+def printPossible(limit=20):
     for word in POSSIBLE_ANSWERS[-limit:]:
         print(word)
 
@@ -210,8 +210,11 @@ def main():
                                                     verifyBadPositions(word,bad_positions) , POSSIBLE_ANSWERS))
         print(len(POSSIBLE_ANSWERS))
 
-        rankByVowelCount()
-        rankByLetterFrequencyWithoutRepeats()
+        if guess_count == 0:
+            rankByLetterFrequencyWithoutRepeats()
+        else:
+            rankByVowelCount()
+            rankByLetterFrequencyWithoutRepeats()
         printPossible(10)
         print()
 
